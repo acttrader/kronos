@@ -1,4 +1,4 @@
-module kronos
+module github.com/acttrader/kronos
 
 go 1.19
 
