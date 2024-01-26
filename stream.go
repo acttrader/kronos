@@ -107,26 +107,26 @@ func (s *Service) listenAccounts(loadCh chan<- struct{}) {
 			log.Println(err.Error(), string(kve.Value()))
 		}
 
-		actual, loaded := s.accounts.LoadOrStore(acct.Id, &account{
-			accountId:   acct.Id,
-			accountType: acct.Type,
-			traderId:    acct.Trader,
-			balance:     acct.Balance,
-			currency:    acct.Currency,
-			officeId:    acct.OfficeId,
-			scheduler:   acct.MarginSchedul == "Y",
-			level:       acct.MarginLevel == "Y",
-			require:     acct.MarginReq,
-			coeff:       acct.MarginCoeff,
-			dayCoeff:    acct.MarginDayCoeff,
+		actual, loaded := s.accounts.LoadOrStore(acct.Id, &Account{
+			AccountId:   acct.Id,
+			AccountType: acct.Type,
+			TraderId:    acct.Trader,
+			Balance:     acct.Balance,
+			Currency:    acct.Currency,
+			OfficeId:    acct.OfficeId,
+			Scheduler:   acct.MarginSchedul == "Y",
+			Level:       acct.MarginLevel == "Y",
+			Require:     acct.MarginReq,
+			Coeff:       acct.MarginCoeff,
+			DayCoeff:    acct.MarginDayCoeff,
 		})
 
 		if loaded {
-			account := actual.(*account)
+			account := actual.(*Account)
 
-			account.balance = acct.Balance
-			account.traderId = acct.Trader
-			account.currency = acct.Currency
+			account.Balance = acct.Balance
+			account.TraderId = acct.Trader
+			account.Currency = acct.Currency
 		}
 	}
 }
@@ -177,18 +177,18 @@ func (s *Service) listenTrades() {
 			}
 
 			s.trades.Store(trade.Id, &Position{
-				id:        trade.Id,
-				account:   trade.AccountId,
-				pair:      trade.PairId,
-				amount:    trade.Amount,
-				openPrice: trade.Price,
-				sellbuy:   trade.SellBuy,
-				fee:       trade.Fee,
-				fee2:      trade.Fee2,
-				swap:      trade.Swap,
-				swap2:     trade.Swap2,
-				bonus:     trade.Bonus,
-				opened:    open,
+				Id:        trade.Id,
+				Account:   trade.AccountId,
+				Pair:      trade.PairId,
+				Amount:    trade.Amount,
+				OpenPrice: trade.Price,
+				Sellbuy:   trade.SellBuy,
+				Fee:       trade.Fee,
+				Fee2:      trade.Fee2,
+				Swap:      trade.Swap,
+				Swap2:     trade.Swap2,
+				Bonus:     trade.Bonus,
+				Opened:    open,
 			})
 
 		} else {

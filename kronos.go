@@ -68,9 +68,9 @@ func (s *Service) GetPositions(traderFilter int64) (out []*Position, err error) 
 
 	if traderFilter != 0 {
 		s.accounts.Range(func(k, v interface{}) bool {
-			acct := v.(*account)
+			acct := v.(*Account)
 
-			if acct.traderId == traderFilter {
+			if acct.TraderId == traderFilter {
 				acctList = append(acctList, acct.accountId)
 			}
 
