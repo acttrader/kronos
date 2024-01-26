@@ -71,7 +71,7 @@ func (s *Service) GetPositions(traderFilter int64) (out []*Position, err error) 
 			acct := v.(*Account)
 
 			if acct.TraderId == traderFilter {
-				acctList = append(acctList, acct.accountId)
+				acctList = append(acctList, acct.AccountId)
 			}
 
 			return true
@@ -87,7 +87,7 @@ func (s *Service) GetPositions(traderFilter int64) (out []*Position, err error) 
 
 		if acctListLength > 0 {
 			for _, val := range acctList {
-				if val == pos.account {
+				if val == pos.Account {
 					add = true
 				}
 			}
