@@ -23,38 +23,6 @@ type Service struct {
 	accounts sync.Map
 }
 
-type account struct {
-	accountId   int64
-	accountType string
-	traderId    int64
-	balance     float64
-	currency    string
-	opentrades  sync.Map
-	equity      float64
-	officeId    int64
-	scheduler   bool
-	level       bool
-	require     float64
-	coeff       float64
-	dayCoeff    float64
-}
-
-type Position struct {
-	id        int64
-	account   int64
-	pair      int64
-	amount    float64
-	openPrice float64
-	sellbuy   string
-	fee       float64
-	fee2      float64
-	swap      float64
-	swap2     float64
-	bonus     float64
-	pl        float64
-	opened    time.Time
-}
-
 func NewService(schema, dbConfig string, natsURL []string) (*Service, error) {
 	s := &Service{
 		cacheTime: time.Now(),

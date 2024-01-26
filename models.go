@@ -1,6 +1,9 @@
 package kronos
 
-import "time"
+import (
+	"sync"
+	"time"
+)
 
 type Symbol struct {
 	ID           int64     `json:"-"`
@@ -17,4 +20,36 @@ type Symbol struct {
 	Bid          float64   `json:"Sell"`
 	Ask          float64   `json:"Buy"`
 	Date         time.Time `json:"PriceDate"`
+}
+
+type Position struct {
+	Id        int64
+	Account   int64
+	Pair      int64
+	Amount    float64
+	OpenPrice float64
+	Sellbuy   string
+	Fee       float64
+	Fee2      float64
+	Swap      float64
+	Swap2     float64
+	Bonus     float64
+	Pl        float64
+	Opened    time.Time
+}
+
+type Account struct {
+	AccountId   int64
+	AccountType string
+	TraderId    int64
+	Balance     float64
+	Currency    string
+	Opentrades  sync.Map
+	Equity      float64
+	OfficeId    int64
+	Scheduler   bool
+	Level       bool
+	Require     float64
+	Coeff       float64
+	DayCoeff    float64
 }
