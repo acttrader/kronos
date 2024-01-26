@@ -201,3 +201,49 @@ func (s *Service) listenTrades() {
 		}
 	}
 }
+
+type Message struct {
+	D bool  `json:"d"`
+	U []int `json:"u"`
+	M struct {
+		Event   string `json:"event"`
+		Payload struct {
+			A int     `json:"a"`
+			B float64 `json:"b"`
+			E float64 `json:"e"`
+			N float64 `json:"n"`
+			P float64 `json:"p"`
+			U int     `json:"u"`
+			C int     `json:"c"`
+			O []struct {
+				T int     `json:"t"`
+				N float64 `json:"n"`
+				P float64 `json:"p"`
+			} `json:"o"`
+		} `json:"payload"`
+	} `json:"m"`
+}
+
+func (s *Service) listenAccountStates() {
+	s.stream.Subscribe(s.schema, func(msg *nats.Msg) {
+		m := &Message{}
+
+		err := json.Unmarshal(msg.Data, &m)
+		if err != nil {
+			return
+		}
+
+		if m.M.Event != "account-state" {
+			return
+		}
+
+		for _, v := range m.M.Payload.O {
+			value, load := s.trades.Load(v.T)
+			if load {
+				trade := value.(*Position)
+				trade.Pl = v.P
+			}
+		}
+	})
+
+}

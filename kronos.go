@@ -60,6 +60,13 @@ func NewService(schema, dbConfig string, natsURL []string) (*Service, error) {
 		}()
 	}
 
+	//process account states worker
+	{
+		go func() {
+			s.listenAccountStates()
+		}()
+	}
+
 	return s, nil
 }
 
