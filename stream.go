@@ -25,18 +25,19 @@ type accountKV struct {
 }
 
 type tradeKV struct {
-	Id        int64   `json:"trade"`
-	AccountId int64   `json:"account"`
-	PairId    int64   `json:"pair"`
-	Amount    float64 `json:"amount"`
-	Price     float64 `json:"price"`
-	SellBuy   string  `json:"sellbuy"`
-	Fee       float64 `json:"fee"`
-	Fee2      float64 `json:"fee2"`
-	Swap      float64 `json:"swap"`
-	Swap2     float64 `json:"swap2"`
-	Bonus     float64 `json:"bonus"`
-	Opened    string  `json:"opened"`
+	Id         int64   `json:"trade"`
+	AccountId  int64   `json:"account"`
+	PairId     int64   `json:"pair"`
+	Amount     float64 `json:"amount"`
+	Price      float64 `json:"price"`
+	SellBuy    string  `json:"sellbuy"`
+	Fee        float64 `json:"fee"`
+	Fee2       float64 `json:"fee2"`
+	Swap       float64 `json:"swap"`
+	Swap2      float64 `json:"swap2"`
+	Bonus      float64 `json:"bonus"`
+	Opened     string  `json:"opened"`
+	Commentary string  `json:"commentary"`
 }
 
 func newStream(schema string, url []string) (*nats.Conn, error) {
@@ -177,18 +178,19 @@ func (s *Service) listenTrades() {
 			}
 
 			s.trades.Store(trade.Id, &Position{
-				Id:        trade.Id,
-				Account:   trade.AccountId,
-				Pair:      trade.PairId,
-				Amount:    trade.Amount,
-				OpenPrice: trade.Price,
-				Sellbuy:   trade.SellBuy,
-				Fee:       trade.Fee,
-				Fee2:      trade.Fee2,
-				Swap:      trade.Swap,
-				Swap2:     trade.Swap2,
-				Bonus:     trade.Bonus,
-				Opened:    open,
+				Id:         trade.Id,
+				Account:    trade.AccountId,
+				Pair:       trade.PairId,
+				Amount:     trade.Amount,
+				OpenPrice:  trade.Price,
+				Sellbuy:    trade.SellBuy,
+				Fee:        trade.Fee,
+				Fee2:       trade.Fee2,
+				Swap:       trade.Swap,
+				Swap2:      trade.Swap2,
+				Bonus:      trade.Bonus,
+				Opened:     open,
+				Commentary: trade.Commentary,
 			})
 
 		} else {

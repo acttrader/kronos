@@ -23,19 +23,20 @@ type Symbol struct {
 }
 
 type Position struct {
-	Id        int64
-	Account   int64
-	Pair      int64
-	Amount    float64
-	OpenPrice float64
-	Sellbuy   string
-	Fee       float64
-	Fee2      float64
-	Swap      float64
-	Swap2     float64
-	Bonus     float64
-	Pl        float64
-	Opened    time.Time
+	Id         int64
+	Account    int64
+	Pair       int64
+	Amount     float64
+	OpenPrice  float64
+	Sellbuy    string
+	Fee        float64
+	Fee2       float64
+	Swap       float64
+	Swap2      float64
+	Bonus      float64
+	Pl         float64
+	Opened     time.Time
+	Commentary string
 }
 
 type Account struct {
