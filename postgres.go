@@ -105,7 +105,7 @@ func (s *Service) selectHistory(from, till time.Time, startFrom, limit int64) ([
 										  comm 
 									  from ` + s.schema + `.trade_history th
 									  where close_date between $1 and $2
-									    and trade_id > $3
+									    and trade_id >= $3
 									  order by trade_id
 									  limit $4`)
 	if err != nil {
@@ -202,7 +202,7 @@ func (s *Service) selectHistoryAccount(acctList []int64, from, till time.Time, s
 									  from ` + s.schema + `.trade_history th
 									  where close_date between $1 and $2
 									    and acct_id = any($3::int[])
-										and trade_id > $4
+										and trade_id >= $4
 									  order by trade_id
 									  limit $5`)
 	if err != nil {
