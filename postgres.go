@@ -173,7 +173,9 @@ func (s *Service) selectHistory(from, till time.Time, startFrom, limit int64) ([
 		return nil, rows.Err()
 	}
 
-	log.Printf("[DEBUG] - selectHistory: '%s')", time.Now().Sub(now))
+	if s.debug {
+		log.Printf("[DEBUG] - selectHistoryAccount: '%s')", time.Now().Sub(now))
+	}
 
 	return result, nil
 }
@@ -270,7 +272,9 @@ func (s *Service) selectHistoryAccount(acctList []int64, from, till time.Time, s
 		return nil, rows.Err()
 	}
 
-	log.Printf("[DEBUG] - selectHistoryAccount: '%s')", time.Now().Sub(now))
+	if s.debug {
+		log.Printf("[DEBUG] - selectHistoryAccount: '%s')", time.Now().Sub(now))
+	}
 
 	return result, nil
 }
