@@ -21,12 +21,14 @@ type Service struct {
 
 	trades   sync.Map
 	accounts sync.Map
+	debug    bool
 }
 
-func NewService(schema, dbConfig string, natsURL []string) (*Service, error) {
+func NewService(schema, dbConfig string, natsURL []string, debug bool) (*Service, error) {
 	s := &Service{
 		cacheTime: time.Now(),
 		schema:    schema,
+		debug:     debug,
 	}
 
 	nc, err := newStream(schema, natsURL)
@@ -55,9 +57,13 @@ func NewService(schema, dbConfig string, natsURL []string) (*Service, error) {
 
 	//process open trades worker
 	{
+		loaded := make(chan struct{})
+
 		go func() {
-			s.listenTrades()
+			s.listenTrades(loaded)
 		}()
+
+		<-loaded
 	}
 
 	//process account states worker
@@ -65,6 +71,7 @@ func NewService(schema, dbConfig string, natsURL []string) (*Service, error) {
 		go func() {
 			s.listenAccountStates()
 		}()
+
 	}
 
 	return s, nil
@@ -110,4 +117,30 @@ func (s *Service) GetPositions(traderFilter int64) (out []*Position, err error) 
 	})
 
 	return out, nil
+}
+
+func (s *Service) GetClosedPositions(traderFilter int64, accountFilter, start, limit int64, from, till time.Time) (out []*ClosedPosition, err error) {
+
+	acctList := []int64{}
+
+	if traderFilter != 0 {
+		s.accounts.Range(func(k, v interface{}) bool {
+			acct := v.(*Account)
+
+			if acct.TraderId == traderFilter &&
+				(acct.AccountId == accountFilter || accountFilter == 0) {
+				acctList = append(acctList, acct.AccountId)
+			}
+
+			return true
+		})
+	} else if accountFilter != 0 {
+		acctList = append(acctList, accountFilter)
+	}
+
+	if len(acctList) == 0 {
+		return s.selectHistory(from, till, start, limit)
+	}
+
+	return s.selectHistoryAccount(acctList, from, till, start, limit)
 }

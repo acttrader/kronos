@@ -132,7 +132,7 @@ func (s *Service) listenAccounts(loadCh chan<- struct{}) {
 	}
 }
 
-func (s *Service) listenTrades() {
+func (s *Service) listenTrades(loadCh chan<- struct{}) {
 	var kv nats.KeyValue
 	var count int64
 
@@ -157,6 +157,9 @@ func (s *Service) listenTrades() {
 	for kve := range w.Updates() {
 		if kve == nil {
 			log.Println("trades loading completed: ", count)
+
+			loadCh <- struct{}{}
+
 			continue
 		}
 

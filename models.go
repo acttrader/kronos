@@ -54,3 +54,24 @@ type Account struct {
 	Coeff       float64
 	DayCoeff    float64
 }
+
+type ClosedPosition struct {
+	Id           int64
+	PrntId       *int64
+	Account      int64
+	Pair         int64
+	ContractSize float64
+	OpenLots     float64
+	CloseLots    float64
+	OpenPrice    float64
+	ClosePrice   float64
+	Sellbuy      string
+	Fee          float64
+	Fee2         float64
+	Swap         float64
+	Swap2        float64
+	Pl           float64
+	Opened       time.Time
+	Closed       time.Time
+	Commentary   string
+}
