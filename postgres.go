@@ -102,7 +102,8 @@ func (s *Service) selectHistory(from, till time.Time, startFrom, limit int64) ([
 										  close_rate, 
 										  profit_loss, 
 										  swaps, 
-										  comm 
+										  comm,
+										  commentary
 									  from ` + s.schema + `.trade_history th
 									  where close_date between $1 and $2
 									    and trade_id >= $3
@@ -124,7 +125,7 @@ func (s *Service) selectHistory(from, till time.Time, startFrom, limit int64) ([
 	result := []*ClosedPosition{}
 
 	for rows.Next() {
-		var sellBuy sql.NullString
+		var sellBuy, commentary sql.NullString
 		var lotSize, openLots, closeLots, openPrice, closePrice, profit, comm, swap sql.NullFloat64
 		var tradeId, prntTradeId, acctId, pairId sql.NullInt64
 		var opened, closed sql.NullTime
@@ -145,6 +146,7 @@ func (s *Service) selectHistory(from, till time.Time, startFrom, limit int64) ([
 			&profit,
 			&comm,
 			&swap,
+			&commentary,
 		)
 		if err != nil {
 			return nil, err
@@ -166,6 +168,7 @@ func (s *Service) selectHistory(from, till time.Time, startFrom, limit int64) ([
 			Pl:           profit.Float64,
 			Opened:       opened.Time,
 			Closed:       closed.Time,
+			Commentary:   commentary.String,
 		})
 	}
 
@@ -198,7 +201,8 @@ func (s *Service) selectHistoryAccount(acctList []int64, from, till time.Time, s
 										  close_rate, 
 										  profit_loss, 
 										  swaps, 
-										  comm
+										  comm,
+										  commentary
 									  from ` + s.schema + `.trade_history th
 									  where close_date between $1 and $2
 									    and acct_id = any($3::int[])
@@ -223,7 +227,7 @@ func (s *Service) selectHistoryAccount(acctList []int64, from, till time.Time, s
 	result := []*ClosedPosition{}
 
 	for rows.Next() {
-		var sellBuy sql.NullString
+		var sellBuy, commentary sql.NullString
 		var lotSize, openLots, closeLots, openPrice, closePrice, profit, comm, swap sql.NullFloat64
 		var tradeId, prntTradeId, acctId, pairId sql.NullInt64
 		var opened, closed sql.NullTime
@@ -244,6 +248,7 @@ func (s *Service) selectHistoryAccount(acctList []int64, from, till time.Time, s
 			&profit,
 			&comm,
 			&swap,
+			&commentary,
 		)
 		if err != nil {
 			return nil, err
@@ -265,6 +270,7 @@ func (s *Service) selectHistoryAccount(acctList []int64, from, till time.Time, s
 			Pl:           profit.Float64,
 			Opened:       opened.Time,
 			Closed:       closed.Time,
+			Commentary:   commentary.String,
 		})
 	}
 
