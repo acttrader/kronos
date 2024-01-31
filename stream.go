@@ -206,20 +206,20 @@ func (s *Service) listenTrades(loadCh chan<- struct{}) {
 }
 
 type Message struct {
-	D bool  `json:"d"`
-	U []int `json:"u"`
+	D bool    `json:"d"`
+	U []int64 `json:"u"`
 	M struct {
 		Event   string `json:"event"`
 		Payload struct {
-			A int     `json:"a"`
+			A int64   `json:"a"`
 			B float64 `json:"b"`
 			E float64 `json:"e"`
 			N float64 `json:"n"`
 			P float64 `json:"p"`
-			U int     `json:"u"`
-			C int     `json:"c"`
+			U float64 `json:"u"`
+			C int64   `json:"c"`
 			O []struct {
-				T int     `json:"t"`
+				T int64   `json:"t"`
 				N float64 `json:"n"`
 				P float64 `json:"p"`
 			} `json:"o"`

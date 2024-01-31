@@ -177,7 +177,7 @@ func (s *Service) selectHistory(from, till time.Time, startFrom, limit int64) ([
 	}
 
 	if s.debug {
-		log.Printf("[DEBUG] - selectHistoryAccount: '%s')", time.Now().Sub(now))
+		log.Printf("[DEBUG] - selectHistory: '%s')", time.Now().Sub(now))
 	}
 
 	return result, nil
