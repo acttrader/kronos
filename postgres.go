@@ -144,8 +144,8 @@ func (s *Service) selectHistory(from, till time.Time, startFrom, limit int64) ([
 			&openPrice,
 			&closePrice,
 			&profit,
-			&comm,
 			&swap,
+			&comm,
 			&commentary,
 		)
 		if err != nil {
@@ -246,8 +246,8 @@ func (s *Service) selectHistoryAccount(acctList []int64, from, till time.Time, s
 			&openPrice,
 			&closePrice,
 			&profit,
-			&comm,
 			&swap,
+			&comm,
 			&commentary,
 		)
 		if err != nil {
