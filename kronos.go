@@ -77,7 +77,7 @@ func NewService(schema, dbConfig string, natsURL []string, debug bool) (*Service
 	return s, nil
 }
 
-func (s *Service) GetPositions(traderFilter int64) (out []*Position, err error) {
+func (s *Service) GetPositions(traderFilter int64) (out []*Position) {
 	acctList := []int64{}
 
 	if traderFilter != 0 {
@@ -116,7 +116,7 @@ func (s *Service) GetPositions(traderFilter int64) (out []*Position, err error) 
 		return true
 	})
 
-	return out, nil
+	return
 }
 
 func (s *Service) GetClosedPositions(traderFilter int64, accountFilter, start, limit int64, from, till time.Time) (out []*ClosedPosition, err error) {
@@ -143,4 +143,20 @@ func (s *Service) GetClosedPositions(traderFilter int64, accountFilter, start, l
 	}
 
 	return s.selectHistoryAccount(acctList, from, till, start, limit)
+}
+
+func (s *Service) GetAccounts(traderFilter, accountFilter int64) (out []*Account) {
+	s.accounts.Range(func(k, v interface{}) bool {
+		acct := v.(*Account)
+
+		if acct.TraderId == traderFilter || traderFilter == 0 {
+			if acct.AccountId == accountFilter || accountFilter == 0 {
+				out = append(out, acct)
+			}
+		}
+
+		return true
+	})
+
+	return
 }
