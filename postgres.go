@@ -270,7 +270,7 @@ func (s *Service) selectHistoryAccount(acctList []int64, from, till time.Time, s
 			OpenPrice:    openPrice.Float64,
 			ClosePrice:   closePrice.Float64,
 			Sellbuy:      sellBuy.String,
-			Fee:          comm.Float64 * closeLots.Float64 / lotSize.Float64,
+			Fee:          comm.Float64 * closeLots.Float64 / openLots.Float64,
 			Swap:         swap.Float64,
 			Pl:           profit.Float64,
 			Opened:       opened.Time,
