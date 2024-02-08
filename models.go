@@ -74,4 +74,5 @@ type ClosedPosition struct {
 	Opened       time.Time
 	Closed       time.Time
 	Commentary   string
+	PositionId   int64
 }

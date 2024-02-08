@@ -103,7 +103,8 @@ func (s *Service) selectHistory(from, till time.Time, startFrom, limit int64) ([
 										  profit_loss, 
 										  swaps, 
 										  comm,
-										  commentary
+										  commentary,
+										  position_id
 									  from ` + s.schema + `.trade_history th
 									  where close_date between $1 and $2
 									    and trade_id >= $3
@@ -127,7 +128,7 @@ func (s *Service) selectHistory(from, till time.Time, startFrom, limit int64) ([
 	for rows.Next() {
 		var sellBuy, commentary sql.NullString
 		var lotSize, openLots, closeLots, openPrice, closePrice, profit, comm, swap sql.NullFloat64
-		var tradeId, prntTradeId, acctId, pairId sql.NullInt64
+		var tradeId, prntTradeId, acctId, pairId, positionId sql.NullInt64
 		var opened, closed sql.NullTime
 
 		err = rows.Scan(
@@ -147,6 +148,7 @@ func (s *Service) selectHistory(from, till time.Time, startFrom, limit int64) ([
 			&swap,
 			&comm,
 			&commentary,
+			&positionId,
 		)
 		if err != nil {
 			return nil, err
@@ -169,6 +171,7 @@ func (s *Service) selectHistory(from, till time.Time, startFrom, limit int64) ([
 			Opened:       opened.Time,
 			Closed:       closed.Time,
 			Commentary:   commentary.String,
+			PositionId:   positionId.Int64,
 		})
 	}
 
@@ -202,13 +205,14 @@ func (s *Service) selectHistoryAccount(acctList []int64, from, till time.Time, s
 										  profit_loss, 
 										  swaps, 
 										  comm,
-										  commentary
-									  from ` + s.schema + `.trade_history th
-									  where close_date between $1 and $2
-									    and acct_id = any($3::int[])
-										and trade_id >= $4
-									  order by trade_id
-									  limit $5`)
+										  commentary,
+										  position_id
+									   from ` + s.schema + `.trade_history th
+									   where close_date between $1 and $2
+									     and acct_id = any($3::int[])
+										 and trade_id >= $4
+									   order by trade_id
+									   limit $5`)
 	if err != nil {
 		return nil, err
 	}
@@ -229,7 +233,7 @@ func (s *Service) selectHistoryAccount(acctList []int64, from, till time.Time, s
 	for rows.Next() {
 		var sellBuy, commentary sql.NullString
 		var lotSize, openLots, closeLots, openPrice, closePrice, profit, comm, swap sql.NullFloat64
-		var tradeId, prntTradeId, acctId, pairId sql.NullInt64
+		var tradeId, prntTradeId, acctId, pairId, positionId sql.NullInt64
 		var opened, closed sql.NullTime
 
 		err = rows.Scan(
@@ -249,6 +253,7 @@ func (s *Service) selectHistoryAccount(acctList []int64, from, till time.Time, s
 			&swap,
 			&comm,
 			&commentary,
+			&positionId,
 		)
 		if err != nil {
 			return nil, err
@@ -271,6 +276,7 @@ func (s *Service) selectHistoryAccount(acctList []int64, from, till time.Time, s
 			Opened:       opened.Time,
 			Closed:       closed.Time,
 			Commentary:   commentary.String,
+			PositionId:   positionId.Int64,
 		})
 	}
 
