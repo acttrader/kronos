@@ -165,7 +165,7 @@ func (s *Service) selectHistory(from, till time.Time, startFrom, limit int64) ([
 			OpenPrice:    openPrice.Float64,
 			ClosePrice:   closePrice.Float64,
 			Sellbuy:      sellBuy.String,
-			Fee:          comm.Float64,
+			Fee:          comm.Float64 * closeLots.Float64 / openLots.Float64,
 			Swap:         swap.Float64,
 			Pl:           profit.Float64,
 			Opened:       opened.Time,
