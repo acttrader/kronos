@@ -38,6 +38,7 @@ type tradeKV struct {
 	Bonus      float64 `json:"bonus"`
 	Opened     string  `json:"opened"`
 	Commentary string  `json:"commentary"`
+	Position   int64   `json:"position"`
 }
 
 func newStream(schema string, url []string) (*nats.Conn, error) {
@@ -194,6 +195,7 @@ func (s *Service) listenTrades(loadCh chan<- struct{}) {
 				Bonus:      trade.Bonus,
 				Opened:     open,
 				Commentary: trade.Commentary,
+				PositionId: trade.Position,
 			})
 
 		} else {

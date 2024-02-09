@@ -37,6 +37,7 @@ type Position struct {
 	Pl         float64
 	Opened     time.Time
 	Commentary string
+	PositionId int64
 }
 
 type Account struct {
