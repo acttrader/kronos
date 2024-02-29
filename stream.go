@@ -186,14 +186,14 @@ func (s *Service) listenTrades(loadCh chan<- struct{}) {
 				Id:         trade.Id,
 				Account:    trade.AccountId,
 				Pair:       trade.PairId,
-				Amount:     trade.Amount,
-				OpenPrice:  trade.Price,
+				Amount:     decimal.NewFromFloat(trade.Amount),
+				OpenPrice:  decimal.NewFromFloat(trade.Price),
 				Sellbuy:    trade.SellBuy,
-				Fee:        trade.Fee,
-				Fee2:       trade.Fee2,
-				Swap:       trade.Swap,
-				Swap2:      trade.Swap2,
-				Bonus:      trade.Bonus,
+				Fee:        decimal.NewFromFloat(trade.Fee),
+				Fee2:       decimal.NewFromFloat(trade.Fee2),
+				Swap:       decimal.NewFromFloat(trade.Swap),
+				Swap2:      decimal.NewFromFloat(trade.Swap2),
+				Bonus:      decimal.NewFromFloat(trade.Bonus),
 				Opened:     open,
 				Commentary: trade.Commentary,
 				PositionId: trade.Position,
@@ -247,7 +247,7 @@ func (s *Service) listenAccountStates() {
 			value, load := s.trades.Load(v.T)
 			if load {
 				trade := value.(*Position)
-				trade.Pl = v.P
+				trade.Pl = decimal.NewFromFloat(v.P)
 			}
 		}
 	})

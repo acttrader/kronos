@@ -8,35 +8,35 @@ import (
 )
 
 type Symbol struct {
-	ID           int64     `json:"-"`
-	Symbol       string    `json:"Symbol"`
-	Market       string    `json:"Market"`
-	Quote        string    `json:"Quote"`
-	Desc         string    `json:"Description"`
-	Active       string    `json:"Active"`
-	MinTradeSize float64   `json:"MinTradeSize"`
-	Precision    float64   `json:"Precision"`
-	ContractSize float64   `json:"ContractSize"`
-	Group        string    `json:"Group"`
-	Type         string    `json:"Type"`
-	Bid          float64   `json:"Sell"`
-	Ask          float64   `json:"Buy"`
-	Date         time.Time `json:"PriceDate"`
+	ID           int64           `json:"-"`
+	Symbol       string          `json:"Symbol"`
+	Market       string          `json:"Market"`
+	Quote        string          `json:"Quote"`
+	Desc         string          `json:"Description"`
+	Active       string          `json:"Active"`
+	MinTradeSize decimal.Decimal `json:"MinTradeSize"`
+	Precision    decimal.Decimal `json:"Precision"`
+	ContractSize decimal.Decimal `json:"ContractSize"`
+	Group        string          `json:"Group"`
+	Type         string          `json:"Type"`
+	Bid          decimal.Decimal `json:"Sell"`
+	Ask          decimal.Decimal `json:"Buy"`
+	Date         time.Time       `json:"PriceDate"`
 }
 
 type Position struct {
 	Id         int64
 	Account    int64
 	Pair       int64
-	Amount     float64
-	OpenPrice  float64
+	Amount     decimal.Decimal
+	OpenPrice  decimal.Decimal
 	Sellbuy    string
-	Fee        float64
-	Fee2       float64
-	Swap       float64
-	Swap2      float64
-	Bonus      float64
-	Pl         float64
+	Fee        decimal.Decimal
+	Fee2       decimal.Decimal
+	Swap       decimal.Decimal
+	Swap2      decimal.Decimal
+	Bonus      decimal.Decimal
+	Pl         decimal.Decimal
 	Opened     time.Time
 	Commentary string
 	PositionId int64
@@ -63,17 +63,17 @@ type ClosedPosition struct {
 	PrntId       *int64
 	Account      int64
 	Pair         int64
-	ContractSize float64
-	OpenLots     float64
-	CloseLots    float64
-	OpenPrice    float64
-	ClosePrice   float64
+	ContractSize decimal.Decimal
+	OpenLots     decimal.Decimal
+	CloseLots    decimal.Decimal
+	OpenPrice    decimal.Decimal
+	ClosePrice   decimal.Decimal
 	Sellbuy      string
-	Fee          float64
-	Fee2         float64
-	Swap         float64
-	Swap2        float64
-	Pl           float64
+	Fee          decimal.Decimal
+	Fee2         decimal.Decimal
+	Swap         decimal.Decimal
+	Swap2        decimal.Decimal
+	Pl           decimal.Decimal
 	Opened       time.Time
 	Closed       time.Time
 	Commentary   string

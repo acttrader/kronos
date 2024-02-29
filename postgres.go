@@ -9,6 +9,7 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
+	"github.com/shopspring/decimal"
 
 	"github.com/lib/pq"
 	_ "github.com/lib/pq" //...
@@ -72,8 +73,8 @@ func (s *Service) selectPairs() ([]*Symbol, error) {
 			Symbol:       name.String,
 			Market:       market.String,
 			Quote:        base.String,
-			Precision:    precision.Float64,
-			ContractSize: contract.Float64,
+			Precision:    decimal.NewFromFloat(precision.Float64),
+			ContractSize: decimal.NewFromFloat(contract.Float64),
 		})
 	}
 
@@ -159,15 +160,15 @@ func (s *Service) selectHistory(from, till time.Time, startFrom, limit int64) ([
 			PrntId:       nilInt64(prntTradeId),
 			Account:      acctId.Int64,
 			Pair:         pairId.Int64,
-			ContractSize: lotSize.Float64,
-			OpenLots:     openLots.Float64,
-			CloseLots:    closeLots.Float64,
-			OpenPrice:    openPrice.Float64,
-			ClosePrice:   closePrice.Float64,
+			ContractSize: decimal.NewFromFloat(lotSize.Float64),
+			OpenLots:     decimal.NewFromFloat(openLots.Float64),
+			CloseLots:    decimal.NewFromFloat(closeLots.Float64),
+			OpenPrice:    decimal.NewFromFloat(openPrice.Float64),
+			ClosePrice:   decimal.NewFromFloat(closePrice.Float64),
 			Sellbuy:      sellBuy.String,
-			Fee:          comm.Float64,
-			Swap:         swap.Float64,
-			Pl:           profit.Float64,
+			Fee:          decimal.NewFromFloat(comm.Float64),
+			Swap:         decimal.NewFromFloat(swap.Float64),
+			Pl:           decimal.NewFromFloat(profit.Float64),
 			Opened:       opened.Time,
 			Closed:       closed.Time,
 			Commentary:   commentary.String,
@@ -264,15 +265,15 @@ func (s *Service) selectHistoryAccount(acctList []int64, from, till time.Time, s
 			PrntId:       nilInt64(prntTradeId),
 			Account:      acctId.Int64,
 			Pair:         pairId.Int64,
-			ContractSize: lotSize.Float64,
-			OpenLots:     openLots.Float64,
-			CloseLots:    closeLots.Float64,
-			OpenPrice:    openPrice.Float64,
-			ClosePrice:   closePrice.Float64,
+			ContractSize: decimal.NewFromFloat(lotSize.Float64),
+			OpenLots:     decimal.NewFromFloat(openLots.Float64),
+			CloseLots:    decimal.NewFromFloat(closeLots.Float64),
+			OpenPrice:    decimal.NewFromFloat(openPrice.Float64),
+			ClosePrice:   decimal.NewFromFloat(closePrice.Float64),
 			Sellbuy:      sellBuy.String,
-			Fee:          comm.Float64,
-			Swap:         swap.Float64,
-			Pl:           profit.Float64,
+			Fee:          decimal.NewFromFloat(comm.Float64),
+			Swap:         decimal.NewFromFloat(swap.Float64),
+			Pl:           decimal.NewFromFloat(profit.Float64),
 			Opened:       opened.Time,
 			Closed:       closed.Time,
 			Commentary:   commentary.String,
