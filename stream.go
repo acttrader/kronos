@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/nats-io/nats.go"
+	"github.com/shopspring/decimal"
 )
 
 type accountKV struct {
@@ -113,20 +114,20 @@ func (s *Service) listenAccounts(loadCh chan<- struct{}) {
 			AccountId:   acct.Id,
 			AccountType: acct.Type,
 			TraderId:    acct.Trader,
-			Balance:     acct.Balance,
+			Balance:     decimal.NewFromFloat(acct.Balance),
 			Currency:    acct.Currency,
 			OfficeId:    acct.OfficeId,
 			Scheduler:   acct.MarginSchedul == "Y",
 			Level:       acct.MarginLevel == "Y",
-			Require:     acct.MarginReq,
-			Coeff:       acct.MarginCoeff,
-			DayCoeff:    acct.MarginDayCoeff,
+			Require:     decimal.NewFromFloat(acct.MarginReq),
+			Coeff:       decimal.NewFromFloat(acct.MarginCoeff),
+			DayCoeff:    decimal.NewFromFloat(acct.MarginDayCoeff),
 		})
 
 		if loaded {
 			account := actual.(*Account)
 
-			account.Balance = acct.Balance
+			account.Balance = decimal.NewFromFloat(acct.Balance)
 			account.TraderId = acct.Trader
 			account.Currency = acct.Currency
 		}

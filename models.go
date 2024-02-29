@@ -3,6 +3,8 @@ package kronos
 import (
 	"sync"
 	"time"
+
+	"github.com/shopspring/decimal"
 )
 
 type Symbol struct {
@@ -44,16 +46,16 @@ type Account struct {
 	AccountId   int64
 	AccountType string
 	TraderId    int64
-	Balance     float64
+	Balance     decimal.Decimal
 	Currency    string
 	Opentrades  sync.Map
-	Equity      float64
+	Equity      decimal.Decimal
 	OfficeId    int64
 	Scheduler   bool
 	Level       bool
-	Require     float64
-	Coeff       float64
-	DayCoeff    float64
+	Require     decimal.Decimal
+	Coeff       decimal.Decimal
+	DayCoeff    decimal.Decimal
 }
 
 type ClosedPosition struct {
